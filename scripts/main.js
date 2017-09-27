@@ -7,40 +7,47 @@
 
             data: {
                 tasks: JSON.parse(localStorage.getItem('tasks')) || [],
-                task: {}
+                newTask: {}
             },
 
             filters: {
                 pluralize: function (number, word) {
-                    if(number > 1) word += 's';
+                    if (number > 1) word += 's';
                     return number + ' ' + word;
                 }
             },
 
             computed: {
-                remaining: function () {
-                    if(!this.tasks) return;
-                    return this.tasks.filter(task => !task.isDone).length
-                }
+                remaining: {
+                    cache: false,
+                    get() {
+                        if (!this.tasks) return;
+                        return this.tasks.filter(task => !task.isDone).length
+                    }
+                },
             },
 
             methods: {
-                addTask: function(){
-                    this.task.isDone = false;
-                    this.tasks.push(this.task);
+                addTask: function () {
+                    this.newTask.isDone = false;
+                    this.tasks.push(this.newTask);
                     localStorage.setItem('tasks', JSON.stringify(this.tasks));
-                    this.task = {};
+                    this.newTask = {};
+                    this.$forceUpdate();
                 },
 
-                editTask: function(task){
+                editTask: function (task) {
                     const todoIndex = this.tasks.indexOf(task);
-                    this.tasks[todoIndex].done = true;
+                    this.tasks[todoIndex].isDone = !this.tasks[todoIndex].isDone;
                     localStorage.setItem('tasks', JSON.stringify(this.tasks));
+                    this.$forceUpdate();
                 },
 
-                deleteTask: function(index){
-                    this.tasks.splice(index, 1);
+                deleteTask: function (task) {
+                    const todoIndex = this.tasks.indexOf(task);
+                    this.tasks.splice(todoIndex, 1);
                     localStorage.setItem('tasks', JSON.stringify(this.tasks));
+                    this.$forceUpdate();
                 }
             }
         }

@@ -23,7 +23,7 @@
     <fieldset>
         <form class="row" v-on:submit.prevent="addTask">
             <div class="input-field col m6 offset-m3">
-                <input id="taskTitle" type="text" v-model="task.title">
+                <input id="taskTitle" type="text" v-model="newTask.title">
                 <label for="taskTitle">Intitulé de la tâche</label>
             </div>
             <div class="col m4 offset-m5">
@@ -39,9 +39,9 @@
 
     <ul class="collection">
         <li class="collection-item" v-for="(task, index) in tasks">
-            <input type="checkbox" :id="'t_' + (index + 1)" v-model="task.isDone" v-on:click="editTask(task)">
+            <input type="checkbox" :id="'t_' + (index + 1)" :checked="task.isDone" v-on:click="editTask(task)">
             <label :for="'t_' + (index + 1)">{{ task.title }}</label>
-            <a href="#" class="link-delete" title="Supprimer cette tâche" v-on:click="deleteTask">
+            <a href="#" class="link-delete" title="Supprimer cette tâche" v-on:click="deleteTask(task)">
                 <i class="small material-icons">delete_forever</i>
             </a>
         </li>
