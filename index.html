@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,9 +21,9 @@
     <h3>Ajouter une tâche</h3>
 
     <fieldset>
-        <form class="row">
+        <form class="row" v-on:submit.prevent="addTask">
             <div class="input-field col m6 offset-m3">
-                <input id="taskTitle" type="text">
+                <input id="taskTitle" type="text" v-model="task.title">
                 <label for="taskTitle">Intitulé de la tâche</label>
             </div>
             <div class="col m4 offset-m5">
@@ -39,9 +39,9 @@
 
     <ul class="collection">
         <li class="collection-item" v-for="(task, index) in tasks">
-            <input type="checkbox" :id="'t_' + (index + 1)" v-model="task.isDone">
+            <input type="checkbox" :id="'t_' + (index + 1)" v-model="task.isDone" v-on:click="editTask(task)">
             <label :for="'t_' + (index + 1)">{{ task.title }}</label>
-            <a href="#" class="link-delete" title="Supprimer cette tâche">
+            <a href="#" class="link-delete" title="Supprimer cette tâche" v-on:click="deleteTask">
                 <i class="small material-icons">delete_forever</i>
             </a>
         </li>
