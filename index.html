@@ -34,11 +34,12 @@
 
     <h3>Liste des tâches</h3>
 
-    <p>Il reste <strong>{{ tasks.filter(task => task.isDone).length }} tâche</strong> sur <strong>{{ tasks.length }}</strong> à effectuer.</p>
+    <p v-if="remaining > 0">Il reste <strong>{{ remaining | pluralize('tâche') }}</strong> sur <strong>{{ tasks.length }}</strong> à effectuer.</p>
+    <p v-else>Bravo ! Vous n'avez rien à faire</p>
 
     <ul class="collection">
         <li class="collection-item" v-for="(task, index) in tasks">
-            <input type="checkbox" :id="'t_' + (index + 1)" :checked="task.isDone">
+            <input type="checkbox" :id="'t_' + (index + 1)" v-model="task.isDone">
             <label :for="'t_' + (index + 1)">{{ task.title }}</label>
             <a href="#" class="link-delete" title="Supprimer cette tâche">
                 <i class="small material-icons">delete_forever</i>
