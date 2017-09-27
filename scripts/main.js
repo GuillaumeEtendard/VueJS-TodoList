@@ -6,11 +6,7 @@
             el: 'main#app',
 
             data: {
-                tasks: [
-                    { title: "Voir", isDone: true},
-                    { title: "Manger", isDone: false},
-                    { title: "Dormir", isDone: false},
-                ],
+                tasks: JSON.parse(localStorage.getItem('tasks')) || [],
                 task: {}
             },
 
@@ -32,16 +28,19 @@
                 addTask: function(){
                     this.task.isDone = false;
                     this.tasks.push(this.task);
+                    localStorage.setItem('tasks', JSON.stringify(this.tasks));
                     this.task = {};
                 },
 
                 editTask: function(task){
                     const todoIndex = this.tasks.indexOf(task);
                     this.tasks[todoIndex].done = true;
+                    localStorage.setItem('tasks', JSON.stringify(this.tasks));
                 },
 
                 deleteTask: function(index){
                     this.tasks.splice(index, 1);
+                    localStorage.setItem('tasks', JSON.stringify(this.tasks));
                 }
             }
         }
