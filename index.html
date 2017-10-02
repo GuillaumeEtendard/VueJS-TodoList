@@ -37,14 +37,8 @@
     <p v-if="remaining > 0">Il reste <strong>{{ remaining | pluralize('tâche') }}</strong> sur <strong>{{ tasks.length }}</strong> à effectuer.</p>
     <p v-else>Bravo ! Vous n'avez rien à faire</p>
 
-    <ul class="collection">
-        <li class="collection-item" v-for="(task, index) in tasks">
-            <input type="checkbox" :id="'t_' + (index + 1)" :checked="task.isDone" v-on:click="editTask(task)">
-            <label :for="'t_' + (index + 1)">{{ task.title }}</label>
-            <a href="#" class="link-delete" title="Supprimer cette tâche" v-on:click="deleteTask(task)">
-                <i class="small material-icons">delete_forever</i>
-            </a>
-        </li>
+    <ul class="collection" v-if="tasks.length > 0">
+        <task v-for="(task, index) in tasks" :key="index" :task="task" :index="index" @edit-task="editTask" @delete-task="deleteTask"></task>
     </ul>
 
 </main><!-- Fin de l'app Vue.js -->
